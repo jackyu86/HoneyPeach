@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.learn</groupId>
+  <artifactId>open-learn-template</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>open-learn-template</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+  
+  <dependencyManagement>
+     <dependencies>
+       <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-dependencies</artifactId>
+          <version>1.5.8.RELEASE</version>
+          <type>pom</type>
+          <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+	<!-- springboot启动支持 -->
+      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter</artifactId>
+          <version>1.5.8.RELEASE</version>
+      </dependency>
+	<!-- 切面支持 -->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-aop</artifactId>
+	</dependency>
+	<!-- 单元测试. -->
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <!-- 
+		包含支持UI模版（Velocity，FreeMarker，JasperReports），
+		邮件服务，
+		脚本服务(JRuby)，
+		缓存Cache（EHCache），
+		任务计划Scheduling（uartz）。
+	 -->
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+    </dependency>
+    <!-- shiro spring. -->
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-spring</artifactId>
+		<version>1.2.5</version>
+	</dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-ehcache</artifactId>
+        <version>1.2.2</version>
+    </dependency>
+	<!-- 添加redis支持-->
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-redis</artifactId>
+        <version>1.3.8.RELEASE</version>
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework.session</groupId>  
+        <artifactId>spring-session-data-redis</artifactId>  
+	</dependency>
+	<dependency>  
+	    <groupId>org.springframework.session</groupId>  
+	    <artifactId>spring-session</artifactId>  
+	</dependency>  
+	
+	<!-- JPA操作数据库. -->
+	<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <!-- 实现热部署项目 -->
+<!--     <dependency> -->
+<!--         <groupId>org.springframework.boot</groupId> -->
+<!--         <artifactId>spring-boot-devtools</artifactId> -->
+<!--         <optional>true</optional> -->
+<!--     </dependency> -->
+    
+	<!-- mysql 数据库驱动. -->
+	<dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-configuration-processor</artifactId>
+       <optional>true</optional>
+    </dependency>
+    <dependency>  
+     	<groupId>com.github.pagehelper</groupId>  
+     	<artifactId>pagehelper</artifactId>  
+     	<version>3.6.3</version>  
+    </dependency> 
+<!--     <dependency>   -->
+<!--         <groupId>org.springframework.boot</groupId>   -->
+<!--         <artifactId>spring-boot-starter-activemq</artifactId>   -->
+<!--     </dependency>   -->
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-jms</artifactId>  
+    </dependency>  
+    <!--jmqp-->
+    <dependency>  
+        <groupId>org.apache.activemq</groupId>  
+        <artifactId>activemq-client</artifactId>  
+    </dependency>  
+  </dependencies>
+    <modules>
+        <!--rpc接口-->
+        <module>open-learn-api-template</module>
+        <!--service-dao层 模板 开发可拆分开-->
+        <module>open-learn-api-service-dao-template</module>
+        <!--web模板-->
+        <module>open-learn-web-controller-template</module>
+        <!--rest模板
+       <module>open-learn-rest-template</module>-->
+        <!--工具模板-->
+        <module>open-learn-utils-template</module>
+    </modules>
+    <build>
+        <finalName>open-web-controller-template</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
