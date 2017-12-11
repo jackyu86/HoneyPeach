@@ -17,6 +17,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.*;
 
+/**
+ * 队列初始化
+ * 线程池的初始化
+ * @TODO 添加线程池监控,运维,降级
+ * @TODO 引入外部队列,原生队列大量会出莫名奇妙问题
+ */
 @Service
 public class OneLevelAsyncContext {
     protected Logger log = LoggerFactory.getLogger(OneLevelAsyncContext.class);
