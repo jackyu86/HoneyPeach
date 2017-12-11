@@ -3,3 +3,4 @@ open-learn-template/.idea/libraries/Maven__org_springframework_boot_spring_boot_
 
 open-learn-template/.idea
 open-learn-template/*/target/*
+*.iml

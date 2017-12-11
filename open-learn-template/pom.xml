@@ -133,6 +133,7 @@
        <module>open-learn-rest-template</module>-->
         <!--工具模板-->
         <module>open-learn-utils-template</module>
+        <module>open-learn-monitor-template</module>
     </modules>
     <build>
         <finalName>open-web-controller-template</finalName>
