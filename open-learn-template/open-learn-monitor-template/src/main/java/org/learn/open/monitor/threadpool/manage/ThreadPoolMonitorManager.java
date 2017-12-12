@@ -23,4 +23,10 @@ public interface ThreadPoolMonitorManager {
      * 返回null注册失败
      * */
     ThreadPoolInformation registerThreadPoolMonitor(String threadPoolName, String beanId);
+    /***
+     * 清空线程池任务队列
+     */
+    Boolean removeAllTask(String name);
+
+
 }

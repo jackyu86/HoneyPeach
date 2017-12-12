@@ -2,7 +2,10 @@ package org.learn.open.monitor.threadpool.proxy;
 
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import org.learn.open.monitor.threadpool.model.ThreadPoolInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,15 +95,32 @@ public class MonitorThreadPoolProxy {
         }
     }
     //强制关闭
-    public boolean shutdownNow(){
+    public List<Runnable> shutdownNow(){
         try{
-            invokeFunc(threadPoolObject,"shutdownNow").invoke(threadPoolObject);
-            return true;
+            Object tasks = invokeFunc(threadPoolObject,"shutdownNow").invoke(threadPoolObject);
+
+            return (List<Runnable>) tasks;
         }catch (Exception e){
             LOGGER.error("run shutdownNow()  error.",e);
-            return false;
+            return null;
         }
     }
+
+    public void removeTask(){
+        BlockingQueue bq = getQueues();
+        bq.stream().forEach(t->{
+            try {
+            invokeFunc(threadPoolObject,"remove",t.getClass()).invoke(threadPoolObject);
+        } catch (Exception e) {
+            LOGGER.error("run remove()  error.",e);
+        }});
+        try {
+            invokeFunc(threadPoolObject,"purge").invoke(threadPoolObject);
+        } catch (Exception e) {
+            LOGGER.error("run purge()  error.",e);
+        }
+    }
+
     //获取活跃线程数
     public int getActiveCount(){
         try{

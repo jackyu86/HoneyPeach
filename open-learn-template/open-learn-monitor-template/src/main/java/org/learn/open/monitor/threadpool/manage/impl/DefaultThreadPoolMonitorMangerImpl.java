@@ -66,11 +66,31 @@ public class DefaultThreadPoolMonitorMangerImpl implements ThreadPoolMonitorMana
         return getTPInformationByName(threadPoolName);
     }
 
+    @Override
+    public Boolean removeAllTask(String name) {
+        MonitorThreadPoolProxy ntp = getMonitorThreadPoolProxy(name);
+        if(ntp!=null) {
+            ntp.removeTask();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     private ThreadPoolInformation buildThreadPoolInformation(String name,Object threadPoolObject){
         MonitorThreadPoolProxy threadPoolProxy=new MonitorThreadPoolProxy(threadPoolObject);
         ThreadPoolInformation threadPoolInformation=threadPoolProxy.buildThreadPoolInformation();
         threadPoolInformation.setName(name);
 
         return threadPoolInformation;
+    }
+
+    private MonitorThreadPoolProxy getMonitorThreadPoolProxy(String name){
+        Object threadPoolObject= ThreadPoolMonitorSet.INSTANCE.getThreadPoolObject(name);
+        if(null==threadPoolObject){
+            LOGGER.warn("Not find ThreadPool by Name [{}]", name);
+            return null;
+        }
+        return new MonitorThreadPoolProxy(threadPoolObject);
     }
 }
