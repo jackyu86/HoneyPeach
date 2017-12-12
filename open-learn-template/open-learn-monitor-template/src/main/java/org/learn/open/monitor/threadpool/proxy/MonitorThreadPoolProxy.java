@@ -61,6 +61,56 @@ public class MonitorThreadPoolProxy {
         }
     }
 
+    public boolean isShutdown(){
+        try{
+            Object isShutdown=invokeFunc(threadPoolObject,"isShutdown").invoke(threadPoolObject);
+            return (Boolean)isShutdown;
+        }catch (Exception e){
+            LOGGER.error("run isShutdown()  error.",e);
+            return false;
+        }
+    }
+    //有序关闭
+    public boolean shutdown(){
+        try{
+            invokeFunc(threadPoolObject,"shutdown").invoke(threadPoolObject);
+            return true;
+        }catch (Exception e){
+            LOGGER.error("run shutdown()  error.",e);
+            return false;
+        }
+    }
+    //强制关闭
+    public boolean shutdownNow(){
+        try{
+            invokeFunc(threadPoolObject,"shutdownNow").invoke(threadPoolObject);
+            return true;
+        }catch (Exception e){
+            LOGGER.error("run shutdownNow()  error.",e);
+            return false;
+        }
+    }
+    //获取活跃线程数
+    public int getActiveCount(){
+        try{
+            Object activeCount=invokeFunc(threadPoolObject,"getActiveCount").invoke(threadPoolObject);
+            return (Integer)activeCount;
+        }catch (Exception e){
+            LOGGER.error("run getActiveCount()  error.",e);
+            return -1;
+        }
+    }
+    //已执行任务的总数
+    public long getTaskCount(){
+        try{
+            Object taskCount=invokeFunc(threadPoolObject,"getTaskCount").invoke(threadPoolObject);
+            return (Long)taskCount;
+        }catch (Exception e){
+            LOGGER.error("run getTaskCount()  error.",e);
+            return -1l;
+        }
+    }
+
     public ThreadPoolInformation buildThreadPoolInformation(){
         ThreadPoolInformation threadPoolInformation=new ThreadPoolInformation();
         threadPoolInformation.setCoreThreadNum(getCoreThreadNum());
