@@ -36,7 +36,8 @@ public class ThreadPoolMonitorServiceImpl implements ThreadPoolMonitorService {
 
     @Override
     public Boolean releaseThreadPool(String threadPoolName) {
-        return null;
+
+        return threadPoolMonitorManager.removeAllTask(threadPoolName);
     }
 
     @Override

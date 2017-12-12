@@ -31,6 +31,8 @@ public interface ThreadPoolMonitorService {
     Boolean releaseThreadPool(String threadPoolName);
 
     /**
+     * //TODO
+     * 未实现
      * 释放线程池并备份队列(谨慎操作)此处所指队列为java内置队列实现。外部队列可使用发布订阅等容错和消费方式
      * */
     Boolean releaseThreadPoolAndBackupQueue(String threadPoolName, Queue queue);

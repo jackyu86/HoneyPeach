@@ -1,12 +1,13 @@
 package org.learn.open.monitor.web.executor;
 
-import org.learn.open.monitor.threadpool.annotation.ThreadPoolMonitorAnnotation;
-import org.learn.open.utils.JsonTools;
-import org.learn.open.monitor.web.callable.CanceledCallable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
@@ -14,22 +15,23 @@ import javax.servlet.AsyncListener;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.*;
+import org.learn.open.monitor.threadpool.annotation.ThreadPoolMonitorAnnotation;
+import org.learn.open.utils.JsonTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * 队列初始化
  * 线程池的初始化
- * @TODO 添加线程池监控,运维,降级
- * @TODO 引入外部队列,原生队列大量会出莫名奇妙问题
+
  */
 @Service
-public class OneLevelAsyncContext {
-    protected Logger log = LoggerFactory.getLogger(OneLevelAsyncContext.class);
+public class NormalAsyncContext {
+    protected Logger log = LoggerFactory.getLogger(NormalAsyncContext.class);
     int queueCapacity=100;
     String poolSize="15-25";
-    @ThreadPoolMonitorAnnotation(threadPoolName="oneleve")
+    @ThreadPoolMonitorAnnotation(threadPoolName="normal")
     public static ThreadPoolExecutor executorService;
     public static BlockingQueue<Runnable> queue = null;
     private long keepAliveTimeInSeconds=1000;
