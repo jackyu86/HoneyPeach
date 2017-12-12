@@ -133,7 +133,10 @@
        <module>open-learn-rest-template</module>-->
         <!--工具模板-->
         <module>open-learn-utils-template</module>
+        <!--监控实现&agent-->
         <module>open-learn-monitor-template</module>
+        <!--监控web模板-->
+        <module>open-learn-monitor-web-controller-template</module>
     </modules>
     <build>
         <finalName>open-web-controller-template</finalName>

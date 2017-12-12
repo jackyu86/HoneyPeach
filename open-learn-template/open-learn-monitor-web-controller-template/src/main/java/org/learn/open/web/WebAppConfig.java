@@ -19,7 +19,7 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 @SpringBootApplication
 @ServletComponentScan
-@ComponentScan(basePackages="org.learn.open")
+@ComponentScan(basePackages="org.osidocker.open")
 public class WebAppConfig extends WebMvcConfigurerAdapter{    
 	
     public static void main(String[] args) {  
@@ -71,6 +71,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
           }
        };
     }
+//    
 //    @Bean
 //    public LocaleChangeInterceptor localeChangeInterceptor() {
 //           LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -78,7 +79,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
 ////         lci.setParamName(LocaleChangeInterceptor.DEFAULT_PARAM_NAME);
 //           return lci;
 //    }
-
+    
 //    @Bean
 //    public InternalResourceViewResolver viewResolver() {
 //        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -88,7 +89,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
 //        resolver.setOrder(2);
 //        return resolver;
 //    }
-
+    
 //    /**
 //     * 注入sessionfatory
 //     * @return
