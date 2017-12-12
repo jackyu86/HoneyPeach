@@ -1,5 +1,7 @@
 package org.learn.open.monitor.threadpool.model;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  * @Author: jack-yu
  * @Description:  线程池维度信息
@@ -15,6 +17,46 @@ public class ThreadPoolInformation {
     private int maxThreadNum;
 
     private int queueLength;
+    //是否执行关闭
+    private boolean isShutdown;
+    //活跃线程数
+    private int activeCount;
+    //已执行数量
+    private long taskCount;
+    //队列
+    private BlockingQueue queues;
+
+    public boolean isShutdown() {
+        return isShutdown;
+    }
+
+    public void setShutdown(boolean shutdown) {
+        isShutdown = shutdown;
+    }
+
+    public int getActiveCount() {
+        return activeCount;
+    }
+
+    public void setActiveCount(int activeCount) {
+        this.activeCount = activeCount;
+    }
+
+    public long getTaskCount() {
+        return taskCount;
+    }
+
+    public void setTaskCount(long taskCount) {
+        this.taskCount = taskCount;
+    }
+
+    public BlockingQueue getQueues() {
+        return queues;
+    }
+
+    public void setQueues(BlockingQueue queues) {
+        this.queues = queues;
+    }
 
     public String getName() {
         return name;
@@ -64,6 +106,10 @@ public class ThreadPoolInformation {
                 ", coreThreadNum=" + coreThreadNum +
                 ", maxThreadNum=" + maxThreadNum +
                 ", queueLength=" + queueLength +
+                ", isShutdown=" + isShutdown +
+                ", activeCount=" + activeCount +
+                ", taskCount=" + taskCount +
+                ", queues=" + queues +
                 '}';
     }
 }

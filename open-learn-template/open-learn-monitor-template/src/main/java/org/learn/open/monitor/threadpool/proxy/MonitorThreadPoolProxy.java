@@ -2,7 +2,7 @@ package org.learn.open.monitor.threadpool.proxy;
 
 
 import java.lang.reflect.Method;
-
+import java.util.concurrent.BlockingQueue;
 import org.learn.open.monitor.threadpool.model.ThreadPoolInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +61,17 @@ public class MonitorThreadPoolProxy {
         }
     }
 
+    public BlockingQueue getQueues(){
+        try{
+            Object queue=invokeFunc(threadPoolObject,"getQueue").invoke(threadPoolObject);
+            return (BlockingQueue)queue;
+        }catch (Exception e){
+            LOGGER.error("run getQueue()  error.",e);
+            return null;
+        }
+    }
+
+
     public boolean isShutdown(){
         try{
             Object isShutdown=invokeFunc(threadPoolObject,"isShutdown").invoke(threadPoolObject);
@@ -117,6 +128,10 @@ public class MonitorThreadPoolProxy {
         threadPoolInformation.setMaxThreadNum(getMaxThreadNum());
         threadPoolInformation.setQueueLength(getQueueLength());
         threadPoolInformation.setThreadNum(getThreadNum());
+        threadPoolInformation.setActiveCount(getActiveCount());
+        threadPoolInformation.setShutdown(isShutdown());
+        threadPoolInformation.setTaskCount(getTaskCount());
+        threadPoolInformation.setQueues(getQueues());
         return threadPoolInformation;
     }
 
