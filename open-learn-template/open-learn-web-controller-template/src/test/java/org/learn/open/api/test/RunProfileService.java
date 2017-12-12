@@ -1,7 +1,7 @@
 package org.learn.open.api.test;
 
-import org.learn.open.web.profiles.DemoBean;
-import org.learn.open.web.profiles.DemoProfileConfig;
+import org.learn.open.monitor.web.profiles.DemoBean;
+import org.learn.open.monitor.web.profiles.DemoProfileConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunProfileService {

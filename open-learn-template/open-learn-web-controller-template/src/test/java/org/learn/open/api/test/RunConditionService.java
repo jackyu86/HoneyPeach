@@ -1,7 +1,7 @@
 package org.learn.open.api.test;
 
-import org.learn.open.web.condition.ListService;
-import org.learn.open.web.condition.ConditionConfig;
+import org.learn.open.monitor.web.condition.ListService;
+import org.learn.open.monitor.web.condition.ConditionConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunConditionService {

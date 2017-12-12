@@ -1,6 +1,6 @@
 package org.learn.open.api.test;
 
-import org.learn.open.web.scheduled.TaskSchedulerConfig;
+import org.learn.open.monitor.web.scheduled.TaskSchedulerConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunScheduleService {

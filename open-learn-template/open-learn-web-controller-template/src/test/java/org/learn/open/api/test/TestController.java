@@ -3,7 +3,7 @@ package org.learn.open.api.test;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.learn.open.web.WebAppConfig;
+import org.learn.open.monitor.web.WebAppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;

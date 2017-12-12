@@ -1,7 +1,7 @@
 package org.learn.open.api.test;
 
-import org.learn.open.web.annotation.DemoService;
-import org.learn.open.web.annotation.DemoServiceConfig;
+import org.learn.open.monitor.web.annotation.DemoService;
+import org.learn.open.monitor.web.annotation.DemoServiceConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunAnnotationService {

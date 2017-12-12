@@ -1,7 +1,7 @@
 package org.learn.open.api.test;
 
-import org.learn.open.web.executor.AsyncTaskService;
-import org.learn.open.web.executor.DemoTaskExecutorConfig;
+import org.learn.open.monitor.web.executor.AsyncTaskService;
+import org.learn.open.monitor.web.executor.DemoTaskExecutorConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunAsyncService {

@@ -4,3 +4,15 @@ open-learn-template/.idea/libraries/Maven__org_springframework_boot_spring_boot_
 open-learn-template/.idea
 open-learn-template/*/target/*
 *.iml
+
+*.iml
+
+*.iml
+
+open-learn-template/open-learn-api-template/open-learn-api-template.iml
+
+open-learn-template/open-learn-api-service-dao-template/open-learn-api-service-template.iml
+
+*.iml
+
+open-learn-template/open-learn-web-controller-template/open-learn-web-controller-template.iml
