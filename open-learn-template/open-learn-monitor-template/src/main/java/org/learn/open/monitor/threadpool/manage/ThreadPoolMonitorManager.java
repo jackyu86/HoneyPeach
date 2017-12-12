@@ -1,8 +1,8 @@
-package org.learn.open.monitor.manage;
+package org.learn.open.monitor.threadpool.manage;
 
 import java.util.List;
 
-import org.learn.open.monitor.model.ThreadPoolInformation;
+import org.learn.open.monitor.threadpool.model.ThreadPoolInformation;
 
 
 /**

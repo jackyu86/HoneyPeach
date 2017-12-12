@@ -1,13 +1,13 @@
-package org.learn.open.monitor.manage.impl;
+package org.learn.open.monitor.threadpool.manage.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.learn.open.monitor.ThreadPoolMonitorSet;
-import org.learn.open.monitor.manage.ThreadPoolMonitorManager;
-import org.learn.open.monitor.model.ThreadPoolInformation;
-import org.learn.open.monitor.proxy.MonitorThreadPoolProxy;
+import org.learn.open.monitor.threadpool.ThreadPoolMonitorSet;
+import org.learn.open.monitor.threadpool.manage.ThreadPoolMonitorManager;
+import org.learn.open.monitor.threadpool.model.ThreadPoolInformation;
+import org.learn.open.monitor.threadpool.proxy.MonitorThreadPoolProxy;
 import org.learn.open.utils.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

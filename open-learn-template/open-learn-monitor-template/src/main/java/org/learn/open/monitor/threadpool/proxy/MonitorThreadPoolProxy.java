@@ -1,9 +1,9 @@
-package org.learn.open.monitor.proxy;
+package org.learn.open.monitor.threadpool.proxy;
 
 
 import java.lang.reflect.Method;
 
-import org.learn.open.monitor.model.ThreadPoolInformation;
+import org.learn.open.monitor.threadpool.model.ThreadPoolInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**

@@ -1,4 +1,4 @@
-package org.learn.open.monitor.model;
+package org.learn.open.monitor.threadpool.model;
 
 /**
  * @Author: jack-yu
