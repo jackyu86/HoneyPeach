@@ -1,4 +1,4 @@
-package org.learn.open.web.monitor.threadpool.annotation;
+package org.learn.open.monitor.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,6 +16,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ThreadPoolMonitorAnnotation {
 
-    public String threadPoolName() default "threadPoolName";
+     String threadPoolName() default "threadPoolName";
 
 }
