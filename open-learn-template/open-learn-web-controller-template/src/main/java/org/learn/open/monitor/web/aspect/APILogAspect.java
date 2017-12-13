@@ -27,7 +27,7 @@ public class APILogAspect {
      *  第五个 * 任意方法
      *  .. 匹配任意数量的参数.
      */
-    @Pointcut("execution(public * org.osidocker.open.*.controller..*.*(..))")
+    @Pointcut("execution(public * org.learn.open.*.controller..*.*(..))")
     public void webLog(){}
      
     @Before("webLog()")

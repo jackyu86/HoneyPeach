@@ -11,11 +11,11 @@ import com.cloopen.rest.sdk.CCPRestSmsSDK;
 
 public class SmsPushUtils{
 	
-	private static final String OSIDOCKER_SMS_APPID = "osidocker.sms.appid";
-	private static final String OSIDOCKER_SMS_ACCOUNT_TOKEN = "osidocker.sms.account.token";
-	private static final String OSIDOCKER_SMS_ACOUNT_SID = "osidocker.sms.acount.sid";
-	private static final String OSIDOCKER_SMS_PORT = "osidocker.sms.port";
-	private static final String OSIDOCKER_SMS_URL = "osidocker.sms.url";
+	private static final String learn_SMS_APPID = "learn.sms.appid";
+	private static final String learn_SMS_ACCOUNT_TOKEN = "learn.sms.account.token";
+	private static final String learn_SMS_ACOUNT_SID = "learn.sms.acount.sid";
+	private static final String learn_SMS_PORT = "learn.sms.port";
+	private static final String learn_SMS_URL = "learn.sms.url";
 	protected static Logger logger = LoggerFactory.getLogger(SmsPushUtils.class);
 	
 	private static CCPRestSmsSDK restAPI;
@@ -60,13 +60,13 @@ public class SmsPushUtils{
 		//*******************************************************************************
 		restAPI = new CCPRestSmsSDK();
 		restAPI.init(
-			GlobalConfig.getProperty(OSIDOCKER_SMS_URL), 
-			GlobalConfig.getProperty(OSIDOCKER_SMS_PORT)
+			GlobalConfig.getProperty(learn_SMS_URL),
+			GlobalConfig.getProperty(learn_SMS_PORT)
 		);
 		restAPI.setAccount(
-			GlobalConfig.getProperty(OSIDOCKER_SMS_ACOUNT_SID),
-			GlobalConfig.getProperty(OSIDOCKER_SMS_ACCOUNT_TOKEN)
+			GlobalConfig.getProperty(learn_SMS_ACOUNT_SID),
+			GlobalConfig.getProperty(learn_SMS_ACCOUNT_TOKEN)
 		);
-		restAPI.setAppId(GlobalConfig.getProperty(OSIDOCKER_SMS_APPID));
+		restAPI.setAppId(GlobalConfig.getProperty(learn_SMS_APPID));
 	}  
 }
