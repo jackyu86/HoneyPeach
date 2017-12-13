@@ -34,7 +34,7 @@ public class OneLevelAsyncContext {
     public static BlockingQueue<Runnable> queue = null;
     private long keepAliveTimeInSeconds=1000;
     private AsyncListener asyncListener;
-    private int asyncTimeoutInSeconds;
+    private int asyncTimeoutInSeconds=1;
 
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
@@ -73,22 +73,22 @@ public class OneLevelAsyncContext {
             asyncListener = new AsyncListener() {
                 @Override
                 public void onComplete(AsyncEvent asyncEvent) throws IOException {
-
+                    //TODO something
                 }
 
                 @Override
                 public void onTimeout(AsyncEvent asyncEvent) throws IOException {
-
+                    //TODO something
                 }
 
                 @Override
                 public void onError(AsyncEvent asyncEvent) throws IOException {
-
+                    //TODO something
                 }
 
                 @Override
                 public void onStartAsync(AsyncEvent asyncEvent) throws IOException {
-
+                    //TODO something
                 }
             };
         }

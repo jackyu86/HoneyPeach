@@ -38,7 +38,7 @@ public class NormalAsyncContext {
     public static BlockingQueue<Runnable> queue = null;
     private long keepAliveTimeInSeconds=1000;
     private AsyncListener asyncListener;
-    private int asyncTimeoutInSeconds;
+    private int asyncTimeoutInSeconds=2;
 
     @PostConstruct
     public void afterPropertiesSet() throws Exception {

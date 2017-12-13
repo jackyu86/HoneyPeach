@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+	  <groupId>org.learn</groupId>
+	  <artifactId>open-learn-template</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>org.learn</groupId>
+  <artifactId>open-learn-rest-template</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>open-learn-rest-template Maven Webapp</name>
+	<build>
+		<finalName>open-web-controller-template</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/</contextPath>
+						<defaultsDescriptor>src/main/resources/webdefault.xml
+						</defaultsDescriptor>
+					</webAppConfig>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8099</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+  <dependencies>
+  	<dependency>
+  		<groupId>org.learn</groupId>
+  		<artifactId>open-learn-api-template</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+	  <dependency>
+		  <groupId>org.learn</groupId>
+		  <artifactId>open-learn-api-service-template</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+  	<dependency>
+  		<groupId>org.learn</groupId>
+  		<artifactId>open-learn-utils-template</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+    <!-- thmleaf模板依赖. -->
+	<dependency>
+	  <groupId>org.springframework.boot</groupId>
+	  <artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+  	<!-- thymeleaf 模板支撑shiro标签 -->
+  	<dependency>
+		<groupId>com.github.theborakompanioni</groupId>
+		<artifactId>thymeleaf-extras-shiro</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+	<!-- 支持导入dubbo服务 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>dubbo</artifactId>
+		<version>2.5.7</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<!-- 支持Zookeeper中获取dubbo服务 -->
+    <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper</artifactId>
+        <version>3.4.6</version>
+        <exclusions>
+        	<exclusion>
+        		<artifactId>slf4j-log4j12</artifactId>
+        		<groupId>org.slf4j</groupId>
+        	</exclusion>
+        </exclusions>
+    </dependency>
+    <!-- Zookeeper的客户端java实现 -->
+    <dependency>
+        <groupId>com.github.sgroschupf</groupId>
+        <artifactId>zkclient</artifactId>
+        <version>0.1</version>
+    </dependency>
+    <!-- springboot web项目支持 -->
+    <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+         <exclusions>
+			  <exclusion>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-log4j12</artifactId>
+			  </exclusion>
+			  <exclusion>
+			    <groupId>log4j</groupId>
+			    <artifactId>log4j</artifactId>
+			  </exclusion>
+		 </exclusions>
+     </dependency>
+     <!-- spring boot web支持：mvc,aop... -->
+	 <dependency>
+		 <groupId>org.springframework.boot</groupId>
+		 <artifactId>spring-boot-starter-web</artifactId>
+	 </dependency>
+	  <dependency>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.webjars</groupId>
+		  <artifactId>swagger-ui</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>javax.mail</groupId>
+		  <artifactId>mail</artifactId>
+		  <version>1.4.7</version>
+	  </dependency>
+	  <!-- Others Begin -->
+	  <!-- <dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpcore</artifactId>
+          <scope>provided</scope> </dependency> -->
+
+	  <!-- Others End -->
+
+	  <!-- Mysql Driver Begin -->
+	  <dependency>
+		  <groupId>mysql</groupId>
+		  <artifactId>mysql-connector-java</artifactId>
+	  </dependency>
+	  <!-- Mysql Driver End -->
+
+  </dependencies>
+</project>
