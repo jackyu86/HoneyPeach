@@ -3,9 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.learn</groupId>
-    <artifactId>open-learn-template</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.8.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>org.learn</groupId>
   <artifactId>open-learn-api-template</artifactId>
@@ -23,7 +24,6 @@
       </dependency>
   </dependencies>
   <build>
-    <finalName>open-web-controller-template</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
