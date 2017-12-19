@@ -1,6 +1,5 @@
 package org.learn.open.monitor.web;
 
-import java.util.List;
 import java.util.Locale;
 
 import org.learn.open.monitor.web.converter.DemoMessageConverter;
@@ -11,14 +10,10 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -29,23 +24,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
         SpringApplication.run(WebAppConfig.class, args);  
     }
 
-    @Bean
-    public InternalResourceViewResolver viewResolver(){
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        //viewResolver.setPrefix("/WEB-INF/classes/views/");
-        viewResolver.setPrefix("/WEB-INF/classes/views/");
-        viewResolver.setSuffix(".jsp");
-        viewResolver.setViewClass(JstlView.class);
-        return  viewResolver;
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //super.addResourceHandlers(registry);
-        //addResourceLocations指的是文件放置的目录，addResourceHandler指的是对外暴露的访问路径
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
-    }
-    /** 
+    /**
      * 配置拦截器 
      * @param registry
      */  
