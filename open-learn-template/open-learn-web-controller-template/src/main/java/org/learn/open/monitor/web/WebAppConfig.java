@@ -34,13 +34,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
 //      registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/user/**");
 //    	registry.addInterceptor(localeChangeInterceptor());
     }
-    
-    @Override
-	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-    	converters.add(demoMessageConverter());
-		super.extendMessageConverters(converters);
-	}
-    
+
     @Bean
     public DemoMessageConverter demoMessageConverter(){
     	return new DemoMessageConverter();
