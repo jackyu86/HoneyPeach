@@ -14,8 +14,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -24,8 +27,24 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
 	
     public static void main(String[] args) {  
         SpringApplication.run(WebAppConfig.class, args);  
-    }   
-      
+    }
+
+    @Bean
+    public InternalResourceViewResolver viewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        //viewResolver.setPrefix("/WEB-INF/classes/views/");
+        viewResolver.setPrefix("/WEB-INF/classes/views/");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setViewClass(JstlView.class);
+        return  viewResolver;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //super.addResourceHandlers(registry);
+        //addResourceLocations指的是文件放置的目录，addResourceHandler指的是对外暴露的访问路径
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+    }
     /** 
      * 配置拦截器 
      * @param registry
@@ -65,30 +84,4 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
           }
        };
     }
-//    @Bean
-//    public LocaleChangeInterceptor localeChangeInterceptor() {
-//           LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-//           // 设置请求地址的参数,默认为：locale
-////         lci.setParamName(LocaleChangeInterceptor.DEFAULT_PARAM_NAME);
-//           return lci;
-//    }
-
-//    @Bean
-//    public InternalResourceViewResolver viewResolver() {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("WEB-INF/pages/");
-//        resolver.setSuffix(".html");
-//        resolver.setCache(false);
-//        resolver.setOrder(2);
-//        return resolver;
-//    }
-
-//    /**
-//     * 注入sessionfatory
-//     * @return
-//     */
-//    @Bean
-//    public HibernateJpaSessionFactoryBean sessionFactory() {
-//        return new HibernateJpaSessionFactoryBean();
-//    }
 }
