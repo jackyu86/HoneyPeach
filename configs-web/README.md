@@ -157,7 +157,7 @@ public class CommonService {
 	/*
 	 * 获取配置信息
 	 *
-	 * @see jd.gms.batchtask.service.CommonService#getDeliverConfig()
+	 * CommonService#getDeliverConfig()
 	 */
 	public TaskDynamicConfig getTaskDynamicConfig() {
 		try {
