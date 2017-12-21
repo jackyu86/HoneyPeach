@@ -374,6 +374,8 @@ public class GateWayConfigClient implements Watcher {
 	                break;
 	            } catch (ZkException e) {
 	            	LOG.error("fireDataChangedEvents error!!", e);
+                    //触发异常监听
+                    listener.exceptionCaught(e);
 	            }
             }
         }
@@ -452,12 +454,16 @@ public class GateWayConfigClient implements Watcher {
 			LOG.error("read data error!!!", e);
 			throw new ZkException(e);
 		} catch (InterruptedException e) {
+            LOG.error("parse json error!!!", e);
 			throw new ZkException(e);
 		} catch (JsonGenerationException e) {
+            LOG.error("parse json error jackson!!!", e);
             throw new ZkException(e);
         } catch (JsonMappingException e) {
+            LOG.error("parse json error jackson mapping!!!", e);
             throw new ZkException(e);
         } catch (IOException e) {
+            LOG.error("parse json error io", e);
             throw new ZkException(e);
         }
         return data;
