@@ -63,7 +63,7 @@ public class GateWayConfigsAction extends BaseAction {
 		}
 
 		try{
-			byte[] data = zk.readData(path);
+			byte[] data = zk.readByteData(path);
 			try{
 				data = GZipUtils.decompress(data);
 			}catch (Exception e) {
@@ -146,7 +146,7 @@ public class GateWayConfigsAction extends BaseAction {
                 data = GZipUtils.compress(data);
             }
 
-            byte[] oldData = zk.readData(path, true);
+            byte[] oldData = zk.readByteData(path, true);
             String pathBak = path + "/bak";
             if (!zk.exists(pathBak)) {
                 zk.recursiveSafeCreate(pathBak, oldData, CreateMode.PERSISTENT);

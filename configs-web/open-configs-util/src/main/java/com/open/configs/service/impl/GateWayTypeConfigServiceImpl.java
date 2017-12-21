@@ -126,7 +126,7 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 		boolean isReadFromLocal = false;
 		byte[] data = null;
 		try {
-			data = zookeeperClient.readData(path, null, true);
+			data = zookeeperClient.readByteData(path, null, true);
 		} catch (Exception e) {
 			if (readLocal) {
 				LOG.error("jdZookeeperClient read  error!!!", e);
@@ -327,7 +327,7 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 		boolean isReadFromLocal = false;
 		byte[] data = null;
 		try {
-			data = zookeeperClient.readData(path, null, true);
+			data = zookeeperClient.readByteData(path, null, true);
 		} catch (Exception e) {
 			if (readLocal) {
 				LOG.error("jdZookeeperClient read  error!!!", e);
