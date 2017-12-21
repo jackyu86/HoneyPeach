@@ -347,13 +347,14 @@ public class GateWayConfigClient implements Watcher {
 
     private void processDataChanged(WatchedEvent event) {
         final String path = event.getPath();
-        
+
         if (event.getType() == EventType.NodeDataChanged || event.getType() == EventType.NodeDeleted || event.getType() == EventType.NodeCreated) {
             Set<PathListener> listeners = registerDataListener.get(path);
             if (listeners != null && !listeners.isEmpty()) {
                 fireDataChangedEvents(event.getPath(), listeners);
             }
         }
+    }
 
         /***
          * 数据格式
