@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.ValueStack;
 
-public class AdminAction extends BaseAction {
+public class GateWayAuthAction extends BaseAction {
 
 	private static final long serialVersionUID = 2432572613921675002L;
 
@@ -21,14 +21,14 @@ public class AdminAction extends BaseAction {
 
     public String adminIndex() {
         ValueStack context = ActionContext.getContext().getValueStack();
-        context.set("readonly", ConfigsAction.readOnly);
+        context.set("readonly", GateWayConfigsAction.readOnly);
 
 		return SUCCESS;
 	}
 
     /**
      * addZkServer
-     * http://xxx/admin/addZkServer.action?key=one&servers
+     * http://xxx/auth/addZkServer.action?key=one&servers
      * =10.10.225.38:2181,10.10.225.38:2182
      * 
      * @throws Exception
@@ -44,7 +44,7 @@ public class AdminAction extends BaseAction {
 			throw new RuntimeException("server error!!");
 		}
 
-        ConfigsAction.zkServers.put(key, server);
+        GateWayConfigsAction.zkServers.put(key, server);
         result = "add ";
 
 		root.put("result", result);
@@ -59,7 +59,7 @@ public class AdminAction extends BaseAction {
 
         String key = getRequest().getParameter("key");
 
-        ConfigsAction.zkServers.remove(key);
+        GateWayConfigsAction.zkServers.remove(key);
         result = "delete";
 
         root.put("result", result);
@@ -72,8 +72,8 @@ public class AdminAction extends BaseAction {
         root = new HashMap<String, Object>();
         boolean success = true;
 
-        List<KeyedServer> servers = new ArrayList<KeyedServer>(ConfigsAction.zkServers.size());
-        for (Entry<String, String> entry : ConfigsAction.zkServers.entrySet()) {
+        List<KeyedServer> servers = new ArrayList<KeyedServer>(GateWayConfigsAction.zkServers.size());
+        for (Entry<String, String> entry : GateWayConfigsAction.zkServers.entrySet()) {
             servers.add(new KeyedServer(entry.getKey(), entry.getValue()));
         }
 
@@ -88,14 +88,14 @@ public class AdminAction extends BaseAction {
         root = new HashMap<String, Object>();
         boolean success = true;
 
-        ConfigsAction.readOnly = !ConfigsAction.readOnly;
+        GateWayConfigsAction.readOnly = !GateWayConfigsAction.readOnly;
 
-        List<KeyedServer> servers = new ArrayList<KeyedServer>(ConfigsAction.zkServers.size());
-        for (Entry<String, String> entry : ConfigsAction.zkServers.entrySet()) {
+        List<KeyedServer> servers = new ArrayList<KeyedServer>(GateWayConfigsAction.zkServers.size());
+        for (Entry<String, String> entry : GateWayConfigsAction.zkServers.entrySet()) {
             servers.add(new KeyedServer(entry.getKey(), entry.getValue()));
         }
 
-        root.put("readonly", ConfigsAction.readOnly);
+        root.put("readonly", GateWayConfigsAction.readOnly);
         root.put("time", System.currentTimeMillis());
         root.put("success", success);
         return JSON;

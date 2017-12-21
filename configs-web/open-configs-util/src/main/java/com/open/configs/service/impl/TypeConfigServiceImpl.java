@@ -163,7 +163,7 @@ public class TypeConfigServiceImpl implements TypeConfigService {
 	 * 
 	 * @param <T>
 	 * @param path
-	 * @param clazz
+	 * @param
 	 */
 	public  synchronized <T extends BaseConfig> void registerListener(String path, final JavaType type) {
 		if(dataListenerCache.containsKey(path)){

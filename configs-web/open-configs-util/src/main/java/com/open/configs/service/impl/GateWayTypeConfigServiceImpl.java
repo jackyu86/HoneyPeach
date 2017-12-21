@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.open.configs.core.GateWayConfigClient;
 import com.open.configs.core.OpenZookeeperClient;
+import com.open.configs.core.PathListener;
 import com.open.configs.core.ZkDataListener;
 import com.open.configs.domain.BaseConfig;
 import com.open.configs.domain.GateWayZookeeperConfig;
@@ -118,7 +119,7 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 	 *
 	 * @param <T>
 	 * @param path
-	 * @param clazz
+	 * @param
 	 * @return
 	 */
 	private <T extends BaseConfig> T readConfigs(String path, boolean readLocal, final JavaType type) {
@@ -160,26 +161,26 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 	 *
 	 * @param <T>
 	 * @param path
-	 * @param clazz
+	 * @param
 	 */
 	public  synchronized <T extends BaseConfig> void registerListener(String path, final JavaType type) {
 		if(dataListenerCache.containsKey(path)){
 			return ;
 		}
 
-		ZkDataListener zkDataListener  = new ZkDataListener() {
+		PathListener zkDataListener  = new PathListener() {
 
 			@Override
-			public void handleDataChange(final String path, Object data) {
+			public void ZkDataListener(Map<String,String> data) {
 				LOG.error("handleDataChange:" + path);
-				final T base = (T)deserialize(type, (byte[]) data);
+
+				final T base = (T)deserialize(type,data.toString().getBytes());
 				if (base != null) {
 					BaseConfig oldConfig = configs.get(path);
 					if(base.getZother().versionEffect(oldConfig)){
 						base.initMySelf();
 						configs.put(path, base);
-						LocalConfigUtils.writeConfig2Local(path, (byte[])data, zookeeperConfig);
-
+						LocalConfigUtils.writeConfig2Local(path, data.toString().getBytes(), zookeeperConfig);
 						dealAck(path);
 					}
 				}
@@ -206,7 +207,7 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 			}
 
 			@Override
-			public void handleDataDeleted(String path) {
+			public void exceptionCaught(Throwable throwable) {
 				//
 			}
 		};
@@ -317,9 +318,9 @@ public class GateWayTypeConfigServiceImpl implements GateWayTypeConfigService {
 	/**
 	 * 获取配置内容
 	 * 
-	 * @param <T>
+	 * @param
 	 * @param path
-	 * @param clazz
+	 * @param
 	 * @return
 	 */
 	public Map readConfigsBytype(String path, boolean readLocal, final JavaType type) {

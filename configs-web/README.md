@@ -168,3 +168,9 @@ public class CommonService {
 		return taskDynamicConfig;
 	}
 }
+
+
+
+#配置路径
+/configs/admin/config
+/configs/auth/config

@@ -1,8 +1,16 @@
 package com.open.configs.web.action;
 
-import com.open.configs.core.ClientFactory;
-import com.open.configs.core.OpenZookeeperClient;
-import com.open.configs.domain.AdminConfig;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.open.configs.core.GateWayConfigClient;
+import com.open.configs.core.GateWayConfigClientFactory;
+import com.open.configs.domain.AuthConfig;
 import com.open.configs.domain.ConfigOther;
 import com.open.configs.domain.SimpleConfigDomain;
 import com.open.configs.domain.ZkServerGroupStat;
@@ -16,9 +24,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.zookeeper.CreateMode;
 
-import java.util.*;
-
-public class ConfigsAction extends BaseAction {
+public class GateWayConfigsAction extends BaseAction {
 
 	private static final long serialVersionUID = 2432572613921675002L;
 
@@ -31,14 +37,14 @@ public class ConfigsAction extends BaseAction {
 
 	public String securityIndex() {
         ValueStack context = ActionContext.getContext().getValueStack();
-        context.set("readonly", ConfigsAction.readOnly);
+        context.set("readonly", GateWayConfigsAction.readOnly);
 
 		return SUCCESS;
 	}
 
 	/**
 	 * 获取path内容
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -46,7 +52,7 @@ public class ConfigsAction extends BaseAction {
 		root = new HashMap<String, Object>();
 		boolean success = true;
 		String msg = null;
-     	OpenZookeeperClient zk = getJdZookeeperClient(getRequest().getParameter("zkConfigs"));
+		GateWayConfigClient zk = getGateWayZookeeperClient(getRequest().getParameter("zkConfigs"));
 		if(!zk.exists(path)){
 			success = false;
 			msg = "路径不存在";
@@ -55,7 +61,7 @@ public class ConfigsAction extends BaseAction {
 			root.put("msg", msg);
 			return JSON;
 		}
-		
+
 		try{
 			byte[] data = zk.readData(path);
 			try{
@@ -68,7 +74,7 @@ public class ConfigsAction extends BaseAction {
 			msg = "获取出错!!!";
 			success = false;
 		}
-		
+
 		root.put("time", System.currentTimeMillis());
 		root.put("success", success);
 		root.put("msg", msg);
@@ -77,18 +83,18 @@ public class ConfigsAction extends BaseAction {
 
 	/**
 	 * 保存修改内容
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
 	public String save() throws Exception {
-		
+
 		root = new HashMap<String, Object>();
 		boolean success = true;
         String msg = null;
-		
+
 		String json = getRequest().getParameter("json");
-		
+
 		if(StringUtils.isBlank(result)){
 			success = false;
 			msg = "内容不能为空";
@@ -128,7 +134,7 @@ public class ConfigsAction extends BaseAction {
         if (readOnly) {
             throw new RuntimeException("当前处于只读模式");
         }
-        OpenZookeeperClient zk = getJdZookeeperClient(serverKey);
+		GateWayConfigClient zk = getGateWayZookeeperClient(serverKey);
 
         if (!zk.exists(path)) {
             throw new RuntimeException("路径不存在");
@@ -149,7 +155,7 @@ public class ConfigsAction extends BaseAction {
                     // 备份
                     zk.writeData(pathBak, oldData);
                     String versionPath = "/back" + path + "." + System.currentTimeMillis();
-                    LocalConfigUtils.writeConfig2Local(versionPath, data, ClientFactory.getTypeConfigService().getZookeeperConfig());
+                    LocalConfigUtils.writeConfig2Local(versionPath, data, GateWayConfigClientFactory.getTypeConfigService().getGateWayZookeeperConfig());
 
                     // 增加最后保存时间
                     content = addLastSaveTime(content);
@@ -174,12 +180,12 @@ public class ConfigsAction extends BaseAction {
     }
 
     private static String addLastSaveTime(String result) {
-		String lastSaveTimeKey = "\"lastSaveTime\""; 
+		String lastSaveTimeKey = "\"lastSaveTime\"";
 		String doubleQuotes = "\"";
 		int lastSaveIndex = result.indexOf(lastSaveTimeKey);
 		if(lastSaveIndex < 0){
 			int addIndex = result.indexOf("\"configName\"");
-			
+
 			if(addIndex > 0){
 				result = result.substring(0, addIndex) + lastSaveTimeKey +" : " + JsonUtils.writeValue(new Date())
 				+ ",\r\n    " + result.substring(addIndex, result.length());
@@ -199,11 +205,11 @@ public class ConfigsAction extends BaseAction {
 		}
         return result;
 	}
-	
-	
+
+
 	/**
 	 * 获取path内容
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -227,7 +233,7 @@ public class ConfigsAction extends BaseAction {
 		root.put("success", success);
 		return JSON;
 	}
-	
+
     private static String join(List<String> messages, String separator) {
         StringBuilder buffer = new StringBuilder();
         for (String msg : messages) {
@@ -240,7 +246,7 @@ public class ConfigsAction extends BaseAction {
         if (readOnly) {
             throw new RuntimeException("当前处于只读模式");
         }
-        com.open.configs.core.OpenZookeeperClient zk = getJdZookeeperClient(serverKey);
+		GateWayConfigClient zk = getGateWayZookeeperClient(serverKey);
 
         if (zk.exists(path)) {
             throw new RuntimeException("路径已经存在!!!");
@@ -261,15 +267,15 @@ public class ConfigsAction extends BaseAction {
 
 	/**
 	 * 获取path内容
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
 	public String getChildren() throws Exception {
 		root = new HashMap<String, Object>();
 		boolean success = true;
-        com.open.configs.core.OpenZookeeperClient zk = getJdZookeeperClient(getRequest().getParameter("zkConfigs"));
-		
+		GateWayConfigClient zk = getGateWayZookeeperClient(getRequest().getParameter("zkConfigs"));
+
 		String msg = null;
 		if(!zk.exists(path)){
 			success = false;
@@ -279,7 +285,7 @@ public class ConfigsAction extends BaseAction {
 			root.put("msg", msg);
 			return JSON;
 		}
-		
+
 		List<String> result = null;
 		try{
 			result = zk.getChildren(path);
@@ -288,17 +294,17 @@ public class ConfigsAction extends BaseAction {
 			success = false;
 			root.put("msg", "获取出错!!!");
 		}
-		
+
 		root.put("result", result);
 		root.put("time", System.currentTimeMillis());
 		root.put("success", success);
 		return JSON;
 	}
-	
-	
+
+
 	/**
 	 * 获取path内容
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -326,9 +332,9 @@ public class ConfigsAction extends BaseAction {
 		root.put("success", success);
 		return JSON;
 	}
-	
+
     private List<String> listImpl(String serverKey, String path) throws Exception {
-        com.open.configs.core.OpenZookeeperClient zk = getJdZookeeperClient(serverKey);
+		GateWayConfigClient zk = getGateWayZookeeperClient(serverKey);
 
         if (!zk.exists(path)) {
             throw new RuntimeException("路径不存在!!!");
@@ -344,7 +350,7 @@ public class ConfigsAction extends BaseAction {
 
     static {
         try {
-            zkServers.put("default", ClientFactory.getConfig().getZkConfigs());
+            zkServers.put("default", GateWayConfigClientFactory.getConfig().getZkConfigs());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -354,7 +360,7 @@ public class ConfigsAction extends BaseAction {
 	
 	/**
 	 * zkServerStat
-	 * http://zkconfigs.360buy.com/client/zkServerStat.action?servers=10.10.225.38:2181,10.10.225.38:2182
+	 * http://xxxx/client/zkServerStat.action?servers=10.10.225.38:2181,10.10.225.38:2182
 	 * @throws Exception
 	 */
 	public String zkServerStat() throws Exception {
@@ -364,7 +370,7 @@ public class ConfigsAction extends BaseAction {
 		String group = getRequest().getParameter("group");
 		
 		if(StringUtils.isNotEmpty(group)){
-			servers = AdminConfig.getInstance().getZkServerGroups().get(group);
+			servers = AuthConfig.getInstance().getZkServerGroups().get(group);
 		}
 		
 		if(StringUtils.isEmpty(servers)){
@@ -382,19 +388,9 @@ public class ConfigsAction extends BaseAction {
 	}
 	
 	
-    public OpenZookeeperClient getJdZookeeperClient(String zkServerKey) throws Exception {
-		OpenZookeeperClient zk = null;
-        if (StringUtils.isNotEmpty(zkServerKey)) {
-            String servers = zkServers.get(zkServerKey);
-			if(StringUtils.isNotBlank(servers)){
-				zk = ClientFactory.getZookeeperClient(servers, 15000);
-			}else{
-                // if (zkServerKey.indexOf(":") < 0) {
-                // throw new RuntimeException("server error!!");
-                // }
-                zk = ClientFactory.getZookeeperClient(zkServerKey, 15000);
-			}
-        }
+    public GateWayConfigClient getGateWayZookeeperClient(String zkServerKey) throws Exception {
+		GateWayConfigClient zk = GateWayConfigClientFactory.getConfigClient();
+
         if (zk == null) {
             throw new RuntimeException("No such zkserver:" + zkServerKey);
         }
