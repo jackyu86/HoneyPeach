@@ -16,3 +16,6 @@ open-learn-template/open-learn-api-service-dao-template/open-learn-api-service-t
 *.iml
 
 open-learn-template/open-learn-web-controller-template/open-learn-web-controller-template.iml
+
+*/.idea/*
+*/*/target/*

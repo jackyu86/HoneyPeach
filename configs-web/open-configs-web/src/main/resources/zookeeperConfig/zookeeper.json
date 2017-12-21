@@ -1,0 +1,7 @@
+{
+	'zkConfigs': '${zk.servers}',
+	'zkCheckInterval': ${zk.checkInterval},
+	'environment':'${zk.env}',
+	'updateAck':true,
+	'localPath':'${zk.localPath}'
+}

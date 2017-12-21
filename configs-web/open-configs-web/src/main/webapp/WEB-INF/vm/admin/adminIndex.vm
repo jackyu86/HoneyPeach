@@ -1,0 +1,145 @@
+#* @vtlvariable name="example" type="com.jd.helloworld.domain.example.Example" *#
+#* @vtlvariable name="message" type="java.lang.Integer" *#
+#* @vtlvariable name="sequence" type="java.lang.Integer" *#
+#* @vtlvariable name="examples" type="com.jd.common.util.PaginatedList<com.jd.helloworld.domain.example.Example>" *#
+#* @vtlvariable name="page" type="com.jd.common.util.PaginatedList" *#
+<script type="text/javascript" src="../js/jquery-1.2.6.js"></script>
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+#set($title = "sns-u-configs")
+#showSimpleMessage()
+<br/>
+<div class='title'><center><b>配置集群管理</b></center></div>
+<div id="msg" style="color:blue;" class='title'></div>
+<div id="pathSelect" style="display:block;" class='title'>
+    path:<input type="text" name="path" id="path" size="60" value="/config/zkservers/production" /><br/>
+	password:<input type="password"  name="password" id="password" size="50" value="6d2c734cc2f286abf21086478c1465e8" /><br/>
+    new server:<input type="text" name="key" id="key" size="10" /> <input type="text" name="server" id="server" size="60" /> <input type="button" id="add" value="新增" onclick="addServer();"/>
+
+	<br/><input type="button" id="get_submit" value="获取" onclick="listServers();"/>
+</div>
+<ul id="servers" class='title'>
+
+</ul>
+
+<br/>
+当前读写模式：
+<div id="mode" style="color:blue;" class='title'>readonly:${readonly}</div><input type="button" id="read_switch" value="切换读写模式" onclick="readOnlySwitch();"/>
+<script>
+
+
+	function getAjaxRequestData(url, data, okFunction){
+		var okFunction = okFunction ? okFunction : function(data, textStatus, xmlHttpRequest) {
+			jQuery("#result").val(data.result);
+		};
+		return {
+				url : url,
+				data : data,
+				type : 'POST',
+				dataType : 'json',
+				cache : false,
+				success : okFunction,
+				error : function(xmlHttpRequest, textStatus, errorThrown) {
+					alert(xmlHttpRequest);
+				}
+			};
+	}
+
+	var addServer = function() {
+		var confirmResult = confirm("确定?");
+		if(!confirmResult){
+			return;
+		}
+
+    	data = {
+    		'path' : jQuery("#path").val(),
+			'password' : jQuery("#password").val(),
+			'key' : jQuery("#key").val(),
+    		'server' : jQuery("#server").val()
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+			if(data.success){
+				jQuery("#msg").html("");
+				alert("add ok");
+                listServers();
+			}else{
+				jQuery("#msg").html(data.msg);
+				alert("add failure");
+			}
+		};
+    	ajaxRequest = getAjaxRequestData('addZkServer.action', data, ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+	
+    var deleteServer = function(key) {
+        var confirmResult = confirm("确定?");
+        if(!confirmResult){
+            return;
+        }
+
+        data = {
+            'path' : jQuery("#path").val(),
+            'password' : jQuery("#password").val(),
+            'key' : key
+        };
+        var ok = function(data, textStatus, xmlHttpRequest) {
+            if(data.success){
+                jQuery("#msg").html("");
+                alert("delete ok");
+                listServers();
+            }else{
+                jQuery("#msg").html(data.msg);
+                alert("delete failure");
+            }
+        };
+        ajaxRequest = getAjaxRequestData('deleteZkServer.action', data, ok);
+        jQuery.ajax(ajaxRequest);
+    };
+
+	var listServers = function() {
+		jQuery("#servers").html("");
+
+    	data = {
+    		'path' : jQuery("#path").val(),
+			'password' : jQuery("#password").val()
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+			if(data.success){
+				jQuery("#msg").html("");
+                while(data.zkServers && data.zkServers.length > 0){
+                    var server = data.zkServers.shift();
+                    var item = "<li>" + server.key + " - " + server.value + " <a href='javascript:deleteServer(\""+server.key+"\")'>删除</a> </li>";
+                    jQuery("#servers").append(item);
+                }
+			}else{
+				jQuery("#msg").html(data.msg);
+				alert("list error!!!");
+			}
+		};
+    	ajaxRequest = getAjaxRequestData('listZkServers.action', data, ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+    
+    var readOnlySwitch = function() {
+        var confirmResult = confirm("确定?");
+        if(!confirmResult){
+            return;
+        }
+
+        data = {
+            'path' : jQuery("#path").val(),
+            'password' : jQuery("#password").val(),
+        };
+        var ok = function(data, textStatus, xmlHttpRequest) {
+            if(data.success){
+                jQuery("#msg").html("");
+                jQuery("#mode").html("readonly:"+data.readonly);
+            }else{
+                jQuery("#msg").html(data.msg);
+                alert("failure");
+            }
+        };
+        ajaxRequest = getAjaxRequestData('readonlySwitch.action', data, ok);
+        jQuery.ajax(ajaxRequest);
+    };
+	
+</script>

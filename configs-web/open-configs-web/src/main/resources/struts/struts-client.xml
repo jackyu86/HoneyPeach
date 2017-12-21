@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="client" namespace="/client" extends="example-default">
+    	<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+        <action name="*" method="{1}" class="com.open.configs.web.action.ConfigsAction">
+            <result>/WEB-INF/vm/client/{1}.vm</result>
+            <result name="JSON" type="json">
+				<param name="root">root</param>
+			</result>
+        </action>
+    </package>
+    <package name="admin" namespace="/admin" extends="example-default">
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult" />
+        </result-types>
+        <action name="*" method="{1}" class="com.open.configs.web.action.AdminAction">
+            <result>/WEB-INF/vm/admin/{1}.vm</result>
+            <result name="JSON" type="json">
+                <param name="root">root</param>
+            </result>
+        </action>
+    </package>
+</struts>

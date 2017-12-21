@@ -1,0 +1,15 @@
+#if($exception)
+    #if($!exception.class.simpleName=="NoSuchMethodException")
+        $!response.setStatus(404)
+        404! 您请求的内容不存在
+    #else
+        出错了：  $exception.message
+    #end
+#elseif($result)
+    #if($result.resultCode)
+        #showSimpleError()    
+    #else
+		系统错误
+    #end
+#end
+ 

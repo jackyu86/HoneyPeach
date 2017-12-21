@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='GBK' ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p - %C[%L] - %m \n"/>
+        </layout>
+    </appender>
+    <appender name="register" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM"/>
+        <param name="file" value="${open.web.log.path}/register1.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p - %m \n"/>
+        </layout>
+    </appender>
+    
+    <category name="register" additivity="false">
+        <priority value="${open.web.log.level}"/>
+        <appender-ref ref="register"/>
+    </category>
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="register"/>
+    </root>
+</log4j:configuration>

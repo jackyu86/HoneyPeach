@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="${open.web.struts.devMode}" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.objectFactory.spring.autoWire " value="type" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.custom.i18n.resources" value="message/message" />
+	<constant name="struts.action.excludePattern" value="/cxf/.*,/service/.*" />
+	
+	
+	<package name="example-default" extends="struts-default">
+		
+		<result-types>
+			<result-type name="velocity" class="com.open.configs.web.VelocityLayoutResult" default="true"></result-type>
+		</result-types>
+
+		<interceptors>
+			<interceptor name="appInterceptor" class="com.open.configs.web.filter.AppInteceptor"></interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" >
+                    <param name="exception.logEnabled">true</param>  
+                    <param name="exception.logLevel">error</param>  
+				</interceptor-ref>
+				<interceptor-ref name="appInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="mydefault" />
+		
+		
+		<global-results>
+			<result name="exception">/WEB-INF/vm/error.vm</result>
+			<result name="error">/WEB-INF/vm/error.vm</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="exception" />
+		</global-exception-mappings>
+	</package>
+	<include file="struts/struts-client.xml" />
+</struts>

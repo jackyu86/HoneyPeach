@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
+	
+	<bean id="zookeeperConfig" class="com.open.configs.domain.ZookeeperConfig">
+		<property name="zkConfigs" value="192.168.1.204:2181,192.168.1.204:2182,192.168.1.204:2183"></property>
+		<property name="zkCheckInterval" value="10000"></property>
+		<property name="environment" value="development"></property>
+		<!-- 要tomcat用户可读写 -->
+		<property name="localPath" value="/export/data/tomcatRoot/home.360buy.com/jdConfig"></property>
+		<property name="updateAck" value="false"></property>
+	</bean>
+	
+	<bean id="zookeeperClient" class="com.open.configs.core.OpenZookeeperClient">
+		<constructor-arg index="0" ref="zookeeperConfig"></constructor-arg>
+	</bean>
+	
+	<bean id="typeConfigService" class="com.open.configs.service.impl.TypeConfigServiceImpl" lazy-init="false">
+		<property name="zookeeperClient" ref="zookeeperClient"></property>
+		<property name="zookeeperConfig" ref="zookeeperConfig"></property>
+	</bean>
+	
+</beans>

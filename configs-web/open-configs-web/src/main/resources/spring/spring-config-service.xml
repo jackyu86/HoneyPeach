@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
+ 	
+ 	<bean id="supperTokens" class="java.util.ArrayList">
+ 		<constructor-arg>
+ 			<list>
+				<value>6d2c734cc2f286abf21086478c1465e8</value>
+ 				<value>testtest123</value>
+ 				<value>360buy.com##zookeeper</value>
+			</list>
+ 		</constructor-arg>
+ 	</bean>
+ 	
+</beans>

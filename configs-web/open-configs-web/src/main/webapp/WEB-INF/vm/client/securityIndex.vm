@@ -1,0 +1,183 @@
+<script type="text/javascript" src="../js/jquery-1.2.6.js"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+#set($title = "sns-u-configs")
+#showSimpleMessage()
+<br/>
+<div class='title'><center><b>配置路径管理</b></center></div>
+当前读写模式：<span style="color:blue;" class='title'>readonly:${readonly}</span>
+<div id="msg" style="color:blue;" class='title'></div>
+<div id="pathSelect" style="display:block;" class='title'>
+	group:<input type="text"  name="zkConfigs" id="zkConfigs" size="60" value="default" /><br/>
+	password:<input type="password"  name="password" id="password" size="50" value="testtest123" /><br/>
+	path:<input type="text" name="path" id="path" size="60" value="/config/app1/development" />
+	<input type="hidden"  name="unCompress" id="unCompress" size="60" value="false" />
+	<input type="hidden"  name="json" id="json" size="60" value="json" />
+	<input type="button" id="get_submit" value="获取" onclick="getUserInfo();"/>
+	<input type="button" id="create_submit" value="新建" onclick="create();"/>
+	<input type="button" id="list_submit" value="ack" onclick="ack();" style="display:;"/>
+</div>
+<ul id="children" class='title'>
+	
+</ul>	
+<textarea id="result" cols="100" rows="20"></textarea><input type="button" id="checkPin_submit" value="save" onclick="save();"/><br/>
+<br/>
+
+
+<script>
+function printObj(obj) {
+	var str = "{\r\n";
+	for (var key in obj) {
+		if(typeof obj[key] == 'object'){		
+			str += key + "==>" + printObj(obj[key]) + "\r\n";
+		}else{
+			str += key + "==>" + obj[key] + "\r\n";
+		}
+	}
+	return (str + "}");
+};
+
+	function getAjaxRequestData(url, data, okFunction){
+		var okFunction = okFunction ? okFunction : function(data, textStatus, xmlHttpRequest) {
+			jQuery("#result").val(data.result);
+		};
+		return {
+				url : url,
+				data : data,
+				type : 'POST',
+				dataType : 'json',
+				cache : false,
+				success : okFunction,
+				error : function(xmlHttpRequest, textStatus, errorThrown) {
+					alert(xmlHttpRequest);
+				}
+			};
+	}
+	
+	var getUserInfo = function(path) {
+		jQuery("#children").html("");
+    	value = jQuery("#path").val();
+    	data = {
+    		'path' : path ? path : value,
+			'password' : jQuery("#password").val(),
+			'zkConfigs' : jQuery("#zkConfigs").val(),
+    		'_charset_' : "utf-8"
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+			if(data.success){
+				jQuery("#result").val(data.result);
+				jQuery("#msg").html("");
+			}else{
+				jQuery("#result").val("");
+				jQuery("#msg").html(data.msg);
+				alert("get error");
+			}
+		};
+    	ajaxRequest = getAjaxRequestData('getPathContent.action', data,　ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+	
+	var save = function() {
+		jQuery("#children").html("");
+		var confirmResult = confirm("确定?");
+		if(!confirmResult){
+			return;
+		}
+    	data = {
+			'path' : jQuery("#path").val(),
+			'password' : jQuery("#password").val(),
+    		'result' : jQuery("#result").val(),
+    		'zkConfigs' : jQuery("#zkConfigs").val(),
+			'json' : jQuery("#json").val(),
+    		'unCompress' : jQuery("#unCompress").val(),
+    		'_charset_' : "utf-8"
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+            jQuery("#children").html("");
+            jQuery("#msg").html("<font color='red'>" +data.time  + "</font>==>" + data.messages);
+            if(data.success){
+                alert("save ok");
+            }else{
+                alert("save failure");
+            }
+			
+		};
+    	ajaxRequest = getAjaxRequestData('save.action', data, ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+	
+	
+	var create = function(path) {
+		var confirmResult = confirm("确定?");
+		if(!confirmResult){
+			return;
+		}
+    	value = jQuery("#path").val();
+    	data = {
+    		'path' : path ? path : value,
+			'password' : jQuery("#password").val(),
+			'zkConfigs' : jQuery("#zkConfigs").val(),
+    		'unCompress' : jQuery("#unCompress").val(),
+    		'_charset_' : "utf-8"
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+			jQuery("#children").html("");
+			if(data.success){
+				jQuery("#msg").html("");
+				alert("create ok");
+			}else{
+				jQuery("#msg").html(data.messages);
+				alert("create failure");
+			}
+		};
+    	ajaxRequest = getAjaxRequestData('create.action', data, ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+	
+	var ack = function(ack) {
+		jQuery("#children").html("");
+		var confirmResult = confirm("确定?");
+		if(!confirmResult){
+			return;
+		}
+		var value = jQuery("#path").val();
+		if(ack){
+    	  value += ack;
+		}
+    	data = {
+    		'path' : value,
+			'password' : jQuery("#password").val(),
+			'zkConfigs' : jQuery("#zkConfigs").val(),
+    		'_charset_' : "utf-8"
+    	};
+		var ok = function(data, textStatus, xmlHttpRequest) {
+            jQuery("#children").html("");
+            var idx = 1;
+			while(data.result && data.result.length > 0){	
+				if(!ack){
+					var item = "<li id='" + data.result[0] + "' oncontextmenu='toPath(this, event);'>" + idx + ":" + data.result.shift() + "</li>";
+					jQuery("#children").append(item);
+				}else{
+					var item = "<li>"  + idx + ":" + data.result.shift() + "</li>";
+					jQuery("#children").append(item);
+				}
+                idx++;
+			}
+		};
+    	ajaxRequest = getAjaxRequestData('list.action', data, ok);
+    	jQuery.ajax(ajaxRequest);
+    };
+	
+	function toPath(ele, event){
+		var p = jQuery("#path").val();
+		if(p === "/"){
+			p = "";
+		}
+		jQuery("#path").val( p + "/" + ele.innerHTML);
+		jQuery("#children").html("");
+		if (document.all) 
+			window.event.returnValue = false;// for IE
+    	else 
+			event.preventDefault();
+	}
+	
+</script>
